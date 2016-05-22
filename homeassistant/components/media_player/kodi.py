@@ -6,6 +6,7 @@ https://home-assistant.io/components/media_player.kodi/
 """
 import logging
 import urllib
+import re
 
 from homeassistant.components.media_player import (
     SUPPORT_NEXT_TRACK, SUPPORT_PAUSE, SUPPORT_PREVIOUS_TRACK, SUPPORT_SEEK,
@@ -28,7 +29,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     jsonrpc_url = config.get('url')  # deprecated
     if jsonrpc_url:
-        url = jsonrpc_url.rstrip('/jsonrpc')
+        url = re.sub('/jsonrpc$', '', jsonrpc_url)
 
     add_devices([
         KodiDevice(
